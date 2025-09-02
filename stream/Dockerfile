@@ -12,10 +12,10 @@ RUN apt-get update && apt-get install -y \
 # إنشاء مجلد العمل
 WORKDIR /app
 
-# نسخ الملفات من مجلد stream
-COPY stream/start.sh /app/start.sh
-COPY stream/nginx.conf /app/nginx.conf.template
-COPY stream/hls /app/hls
+# نسخ الملفات من نفس المجلد (Dockerfile موجود داخل stream)
+COPY start.sh /app/start.sh
+COPY nginx.conf.template /app/nginx.conf.template
+COPY hls /app/hls
 
 # اعطاء صلاحية التنفيذ لـ start.sh
 RUN chmod +x /app/start.sh
