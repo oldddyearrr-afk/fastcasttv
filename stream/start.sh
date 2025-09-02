@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # إعداد متغيرات البيئة
@@ -14,10 +13,10 @@ find hls -name "*.ts" -delete 2>/dev/null || true
 find hls -name "*.m3u8" -delete 2>/dev/null || true
 
 # تشغيل Nginx فوراً
-nginx -c /home/runner/workspace/nginx.conf -g "daemon off;" &
+nginx -c /app/nginx.conf -g "daemon off;" &
 NGINX_PID=$!
 
-# بدء سريع لـ FFmpeg مع إعدادات محسنة للسرعة
+# بدء سريع لـ FFmpeg
 ffmpeg -hide_banner -loglevel error \
     -fflags +genpts+flush_packets \
     -avoid_negative_ts make_zero \
@@ -45,8 +44,8 @@ ffmpeg -hide_banner -loglevel error \
 FFMPEG_PID=$!
 
 echo "✅ Stream server started successfully!"
-echo "🌐 Access the stream at: http://0.0.0.0:5000"
-echo "📺 Direct M3U8 link: http://0.0.0.0:5000/hls/playlist.m3u8"
+echo "🌐 Access the stream at: http://0.0.0.0:${PORT}"
+echo "📺 Direct M3U8 link: http://0.0.0.0:${PORT}/hls/playlist.m3u8"
 echo "📊 FFmpeg PID: $FFMPEG_PID"
 echo "🔧 Nginx PID: $NGINX_PID"
 
@@ -57,14 +56,8 @@ monitor_ffmpeg() {
         if ! kill -0 $FFMPEG_PID 2>/dev/null; then
             restart_count=$((restart_count + 1))
             echo "⚠️ FFmpeg stopped (restart #$restart_count), restarting in 5 seconds..."
-            
-            # انتظار قبل إعادة التشغيل
             sleep 5
-            
-            # تنظيف سريع
             rm -f hls/*.ts hls/*.m3u8
-            
-            # إعادة تشغيل FFmpeg مع إعدادات مبسطة
             ffmpeg -hide_banner -loglevel info \
                 -fflags +genpts \
                 -avoid_negative_ts make_zero \
@@ -89,8 +82,6 @@ monitor_ffmpeg() {
                 "hls/playlist.m3u8" &
             FFMPEG_PID=$!
             echo "🔄 FFmpeg restarted with PID: $FFMPEG_PID"
-            
-            # إذا فشل عدة مرات، انتظر أكثر
             if [ $restart_count -gt 3 ]; then
                 echo "⏰ Too many restarts, waiting 30 seconds..."
                 sleep 30
@@ -101,7 +92,6 @@ monitor_ffmpeg() {
     done
 }
 
-# تنظيف دوري للملفات القديمة
 cleanup_segments() {
     while true; do
         sleep 60
@@ -109,13 +99,11 @@ cleanup_segments() {
     done
 }
 
-# تشغيل المراقبة والتنظيف في الخلفية
 monitor_ffmpeg &
 MONITOR_PID=$!
 cleanup_segments &
 CLEANUP_PID=$!
 
-# دالة تنظيف عند الإنهاء
 cleanup() {
     echo "🛑 Stopping all services..."
     kill $FFMPEG_PID 2>/dev/null || true
@@ -126,17 +114,13 @@ cleanup() {
     exit 0
 }
 
-# تعيين signal handlers
 trap cleanup SIGTERM SIGINT
 
-# إبقاء السكريبت يعمل
-echo "🔄 Monitoring stream... Press Ctrl+C to stop"
 while true; do
     sleep 5
-    # التحقق من صحة Nginx
     if ! kill -0 $NGINX_PID 2>/dev/null; then
         echo "⚠️ Nginx stopped, restarting..."
-        nginx -c /home/runner/workspace/nginx.conf -g "daemon off;" &
+        nginx -c /app/nginx.conf -g "daemon off;" &
         NGINX_PID=$!
     fi
 done
