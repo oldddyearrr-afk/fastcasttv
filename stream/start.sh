@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# دعم Koyeb PORT
+PORT=${PORT:-80}
+
 # إعداد متغيرات البيئة
 export SOURCE_URL="http://188.241.219.157/ulke.bordo1453.befhjjjj/Orhantelegrammmm30conextionefbn/274122?token=ShJdY2ZmQQNHCmMZCDZXUh9GSHAWGFMD.ZDsGQVN.WGBFNX013GR9YV1QbGBp0QE9SWmpcXlQXXlUHWlcbRxFACmcDY1tXEVkbVAoAAQJUFxUbRFldAxdeUAdaVAFcUwcHAhwWQlpXQQMLTFhUG0FQQU1VQl4HWTsFVBQLVABGCVxEXFgeEVwNZgFcWVlZBxcDGwESHERcFxETWAxCCQgfEFNZQEBSRwYbX1dBVFtPF1pWRV5EFExGWxMmJxVJRlZKRVVaQVpcDRtfG0BLFU8XUEpvQlUVQRYEUA8HRUdeEQITHBZfUks8WgpXWl1UF1xWV0MSCkQERk0TDw1ZDBBcQG5AXVYRCQ1MCVVJ"
 
@@ -11,6 +14,9 @@ mkdir -p hls
 # تنظيف سريع فقط للملفات القديمة
 find hls -name "*.ts" -delete 2>/dev/null || true
 find hls -name "*.m3u8" -delete 2>/dev/null || true
+
+# توليد nginx.conf من template لدعم $PORT
+envsubst '$PORT' < /app/nginx.conf.template > /app/nginx.conf
 
 # تشغيل Nginx فوراً
 nginx -c /app/nginx.conf -g "daemon off;" &
