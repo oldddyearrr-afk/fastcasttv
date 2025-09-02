@@ -1,23 +1,30 @@
+# استخدم Ubuntu مع nginx و ffmpeg
 FROM ubuntu:22.04
 
+# تثبيت nginx و ffmpeg و curl
 RUN apt-get update && apt-get install -y \
     nginx \
     ffmpeg \
-    bash \
     curl \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# إنشاء مجلد العمل
 WORKDIR /app
 
-# نسخ الملفات من مجلد stream في GitHub
+# نسخ الملفات من مجلد stream
 COPY stream/start.sh /app/start.sh
-COPY stream/nginx.conf /app/nginx.conf
+COPY stream/nginx.conf /app/nginx.conf.template
 COPY stream/hls /app/hls
 
+# اعطاء صلاحية التنفيذ لـ start.sh
 RUN chmod +x /app/start.sh
 
-ENV SOURCE_URL="http://188.241.219.157/ulke.bordo1453.befhjjjj/Orhantelegrammmm30conextionefbn/274122?token=ShJdY2ZmQQNHCmMZCDZXUh9GSHAWGFMD.ZDsGQVN.WGBFNX013GR9YV1QbGBp0QE9SWmpcXlQXXlUHWlcbRxFACmcDY1tXEVkbVAoAAQJUFxUbRFldAxdeUAdaVAFcUwcHAhwWQlpXQQMLTFhUG0FQQU1VQl4HWTsFVBQLVABGCVxEXFgeEVwNZgFcWVlZBxcDGwESHERcFxETWAxCCQgfEFNZQEBSRwYbX1dBVFtPF1pWRV5EFExGWxMmJxVJRlZKRVVaQVpcDRtfG0BLFU8XUEpvQlUVQRYEUA8HRUdeEQITHBZfUks8WgpXWl1UF1xWV0MSCkQERk0TDw1ZDBBcQG5AXVYRCQ1MCVVJ"
+# إنشاء مجلدات مؤقتة لـ nginx logs و temp
+RUN mkdir -p /tmp/client_temp /tmp/proxy_temp /tmp/fastcgi_temp /tmp/uwsgi_temp /tmp/scgi_temp
 
-EXPOSE 5000
+# فتح البورت (Koyeb يستخدم متغير PORT)
+EXPOSE 80
 
+# تشغيل start.sh عند بدء الحاوية
 CMD ["/app/start.sh"]
