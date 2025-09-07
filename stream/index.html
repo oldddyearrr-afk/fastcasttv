@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Stream P2P</title>
+  <style>
+    body { font-family: Arial; margin: 20px; background:#111; color:#fff; }
+    h1 { color: #ff5722; }
+    video { width: 100%; max-width: 720px; height: auto; border: 2px solid #ff5722; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p2p-media-loader-hlsjs@latest"></script>
+</head>
+<body>
+  <h1>🔥 Live Stream P2P Enabled</h1>
+  <video id="video" controls autoplay></video>
+  <p><strong>Stream URL:</strong> <a href="/hls/playlist.m3u8">/hls/playlist.m3u8</a></p>
+  <p>Status: <span id="status">Connecting...</span></p>
+
+  <script>
+    const video = document.getElementById('video');
+    if (Hls.isSupported()) {
+      const engine = new p2pml.hlsjs.Engine({
+        segments: { swarmId: "perfect_stream_swarm" },
+        loader: {
+          trackerAnnounce: [
+            "wss://tracker.openwebtorrent.com",
+            "wss://tracker.btorrent.xyz",
+            "wss://tracker.fastcast.nz"
+          ]
+        }
+      });
+      const hls = new Hls({ liveSyncDurationCount: 3, loader: engine.createLoaderClass() });
+      p2pml.hlsjs.initHlsJsPlayer(hls);
+      hls.loadSource("/hls/playlist.m3u8");
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => document.getElementById('status').textContent = "Streaming ✅");
+      hls.on(Hls.Events.ERROR, (event, data) => document.getElementById('status').textContent = "Error ⚠️");
+    } else {
+      document.getElementById('status').textContent = "HLS Not Supported ❌";
+    }
+  </script>
+</body>
+</html>
