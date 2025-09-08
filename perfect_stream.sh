@@ -4,7 +4,7 @@ pkill -f nginx 2>/dev/null || true
 pkill -f ffmpeg 2>/dev/null || true
 sleep 3
 
-SOURCE_URL="http://rome11287.cdnsilver.me:80/play/live.php?mac=00:1A:79:00:21:BA&stream=1588738&extension=ts&play_token=dFNthHLMEp&sn2="
+SOURCE_URL="http://hi-world.me:80/play/live.php?mac=00:1A:79:1E:00:37&stream=544835&extension=ts&play_token=xHWGoXetce&sn2="
 WORK_DIR="/app"
 STREAM_DIR="$WORK_DIR/stream"
 HLS_DIR="$STREAM_DIR/hls"
