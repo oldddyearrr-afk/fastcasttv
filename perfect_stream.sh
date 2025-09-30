@@ -4,7 +4,7 @@ pkill -f nginx 2>/dev/null || true
 pkill -f ffmpeg 2>/dev/null || true
 sleep 3
 
-SOURCE_URL="http://dream4k.co:80/live/3821836150904941/3cpvazya3j/1641618.ts"
+SOURCE_URL="http://dream4ktv.net:80/play/live.php?mac=00:1A:79:34:65:29&stream=1641605&extension=ts"
 WORK_DIR="/app"
 STREAM_DIR="$WORK_DIR/stream"
 HLS_DIR="$STREAM_DIR/hls"
