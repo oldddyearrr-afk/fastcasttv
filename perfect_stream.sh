@@ -4,7 +4,7 @@ pkill -f nginx 2>/dev/null || true
 pkill -f ffmpeg 2>/dev/null || true
 sleep 3
 
-SOURCE_URL="https://live.foxtv7.com/stream/bein1.m3u8"
+SOURCE_URL="http://dream4k.co:80/live/3821836150904941/3cpvazya3j/1641618.ts"
 WORK_DIR="/app"
 STREAM_DIR="$WORK_DIR/stream"
 HLS_DIR="$STREAM_DIR/hls"
