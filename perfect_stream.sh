@@ -4,7 +4,7 @@ pkill -f nginx 2>/dev/null || true
 pkill -f ffmpeg 2>/dev/null || true
 sleep 3
 
-SOURCE_URL="http://soft24f.net/live/6872c3410e8cibopro/22bcpapc/179961.ts"
+SOURCE_URL="http://hydratv.co/live/hm365447/ak6436774/415774.m3u8"
 WORK_DIR="/app"
 STREAM_DIR="$WORK_DIR/stream"
 HLS_DIR="$STREAM_DIR/hls"
