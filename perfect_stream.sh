@@ -4,7 +4,7 @@ pkill -f nginx 2>/dev/null || true
 pkill -f ffmpeg 2>/dev/null || true
 sleep 3
 
-SOURCE_URL="https://mo3ad.xyz/live/mo3ad710/mo3ad710/669.m3u8"
+SOURCE_URL="https://mo3ad.xyz/auth/M7LfnESoCDfQYt4ZKw9ynImhVXbAAo2OQOod31siHR30jb2TVqYYwmCUanh426RYGBd_9j_6S4Z2sgm28_pq6_FlK0yawd98XbAC-vIKmzN3gA4sXn1d5cVtDzROoPG-sTIEQks1rKgulf-oadOFa062eTX7pml4X8CFWR0TRZgfmoxCeTrWkxjcuAjCh3diCBUpMXEaEnps_75lChxATZ572Zw7Jg_DjnxOYFhRK5gdlI6hmifdwycDtbe1z4xJmA74FaN9gVo0N9x7RQhDDa9XisEKfd393Uv3HZFVROp5HWgoIzhqGf9KqbJ0eWN0NmJU7AQL0yazQgMWQQhSiHbHGhddvIPWSXaE-ltW4LnUyHpD7qsQSksN1ChHGZifz3UNyOQQQXq3bhqcEQUpla6sxmHP-USFF6ioEabKOuuwPQ9GHx0auC9UGveOuCh_5yKgcCZ9iilPSE4jWbhEbRx1BNwudydCK7lEJHkpGyALNS_tjcaJlJvAuq8a4YoSw9cPk_jclA-fyLqEicoc2mYPaNtCIdorP3j-ApKbhdTqfHHJzE-uC488gnexrgaNoPMLSS36snNN8KMH-QSRtcB_bs40rNzPpNzb6QLaEM5YWf8hRVgiP4MStf9y9RwP"
 WORK_DIR="/app"
 STREAM_DIR="$WORK_DIR/stream"
 HLS_DIR="$STREAM_DIR/hls"
